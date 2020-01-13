@@ -429,9 +429,7 @@ public class ExchangeRule {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		itemMeta.setDisplayName(displayedItemStackInfo());
 		List<String> newLore = new ArrayList<String>();
-		if(ItemExchangePlugin.ENCHANTABLE_ITEMS.contains(material)) {
-			newLore.add(displayedEnchantments());
-		}
+		newLore.add(displayedEnchantments());
 		
 		for (String line : displayedLore()) {
 			newLore.add(line);
@@ -469,19 +467,14 @@ public class ExchangeRule {
 		// Amount
 		compiledRule += hiddenCategorySpacer + hideString(String.valueOf(amount));
 		compiledRule += hiddenCategorySpacer;
-		boolean enchantable = ItemExchangePlugin.ENCHANTABLE_ITEMS.contains(material);
-		if(enchantable) {
-			for (Entry<Enchantment, Integer> entry : requiredEnchantments.entrySet()) {
-				compiledRule += hideString(String.valueOf(DeprecatedMethods.getEnchantmentId(entry.getKey()))) + hiddenTertiarySpacer + hideString(entry.getValue().toString()) + hiddenSecondarySpacer;
-			}
+		for (Entry<Enchantment, Integer> entry : requiredEnchantments.entrySet()) {
+			compiledRule += hideString(String.valueOf(DeprecatedMethods.getEnchantmentId(entry.getKey()))) + hiddenTertiarySpacer + hideString(entry.getValue().toString()) + hiddenSecondarySpacer;
 		}
 		compiledRule += hiddenCategorySpacer;
-		if(enchantable) {
-			for (Enchantment enchantment : excludedEnchantments) {
-				compiledRule += hideString(String.valueOf(DeprecatedMethods.getEnchantmentId(enchantment))) + hiddenSecondarySpacer;
-			}
+		for (Enchantment enchantment : excludedEnchantments) {
+			compiledRule += hideString(String.valueOf(DeprecatedMethods.getEnchantmentId(enchantment))) + hiddenSecondarySpacer;
 		}
-		compiledRule += hiddenCategorySpacer + ((unlistedEnchantmentsAllowed && enchantable) ? hideString("1") : hideString("0"));
+		compiledRule += hiddenCategorySpacer + ((unlistedEnchantmentsAllowed) ? hideString("1") : hideString("0"));
 		compiledRule += hiddenCategorySpacer + hideString(escapeString(displayName));
 		compiledRule += hiddenCategorySpacer;
 		for (int i = 0; i < lore.length; i++) {
@@ -634,9 +627,7 @@ public class ExchangeRule {
 		}
 
 		// Enchantments
-		if(ItemExchangePlugin.ENCHANTABLE_ITEMS.contains(material)) {
-			displayed.add(displayedEnchantments());
-		}
+		displayed.add(displayedEnchantments());
 
 		// Lore
 		for(String line : displayedLore()) {
